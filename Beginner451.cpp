@@ -1,31 +1,34 @@
+#include <algorithm>
+#include <cstdlib>
+#include <iomanip>
 #include <iostream>
+#include <numbers>
+#include <queue>
+#include <set>
+#include <stack>
 #include <string>
 #include <vector>
-#include <cstdlib>
-#include <set>
-#include <numbers>
-#include <iomanip>
-#include <queue>
+#include <map>
+#include <bitset>
 using namespace std;
+
 
 int main()
 {
     int q;
     cin >> q;
-    // 小さい順に並ぶ優先度つきキュー
-    priority_queue<int, vector<int>, greater<int>> que;
-    for (int i = 0; i <q; i++){
-        int t, h;
-        cin >> t >> h;
-        if (t == 1){
-            que.push(h);
+    multiset<long long> tree;
+    for (int i = 0; i < q; i++){
+        long long n, h;
+        cin >> n >> h;
+        if (n == 1){
+            tree.insert(h);
         }
-        else if(t == 2){
-		        // 先頭(最小値)がh以下の間、削除し続ける
-            while (!que.empty() && que.top()  <= h){
-                que.pop();
-            }
+        else{
+            auto it_start = tree.lower_bound(1);
+            auto it_end = tree.upper_bound(h);
+            tree.erase(it_start, it_end);
         }
-        cout << que.size() << endl;
+        cout << tree.size() << endl;
     }
 }
